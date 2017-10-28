@@ -15,7 +15,7 @@ public class AdjacencyList {
 		}
 	}
 	
-	//Adds an edge between the vertices p and q
+	//Adds an edge between the vertices p and q 
 	public void addEdge(int p, int q) {
 		adjacencyList[p].add(q);
 		adjacencyList[q].add(p);
