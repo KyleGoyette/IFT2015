@@ -118,6 +118,7 @@ public class UnionFind
     		rank[y] += 1;
     	}
     	parent[x] = y;
+    	//rank[y]++?
     	if (DEBUG_COUNT_OPERATIONS) countSet++;
     }
     

@@ -34,11 +34,12 @@ import java.util.Random;
  * 
  * @author Mikl&oacute;s Cs&#369;r&ouml;s
  */
+
 public class ERPhaseTransition 
 {
     private ERPhaseTransition(int n)
     {
-        // init de structures de données
+        //Union-Find Structure
         this.UF = new UnionFind(n);
         this.adjacencyList = new AdjacencyList(n);
         this.getCount = 0;
@@ -51,6 +52,7 @@ public class ERPhaseTransition
     private static long getCount;
     private static long setCount;
     
+    //Returns true if the vertices x and y are connected
     boolean hasEdge(int x, int y)
     {
         if (adjacencyList.hasEdge(x, y)) {
@@ -61,6 +63,10 @@ public class ERPhaseTransition
         
     }
     
+    /**
+     * Adds an edge between vertex x and vertex y
+     * @return subset size
+     */
     int addEdge(int x, int y)
     {
     	adjacencyList.addEdge(x, y);
@@ -68,20 +74,32 @@ public class ERPhaseTransition
     }
     
     /**
-     * Ajoute des arêtes jusqu'à ce que le graphe devient connexe.
+     * Adds edges until the graph is connected
      * 
      * @param n
      * @return 
      */
     long getTransitionGiantComponent(int n)
     {
-        UnionFind UF = new UnionFind(n);
-        int maxt = 1; // taille max.
+        //The maximum size of the subsets
+        int maxt = 1;
+        
+        //Before the procedure, the graph has no edges
         long N = 0L;
+        
+        //Graph is connected when maxt == n
         while (maxt<n)
         {
-            int x = RND.nextInt(n);
+            //Randomly chosen vertex x
+        	int x = RND.nextInt(n);
+        	//Randomly chosen vertex y
             int y = RND.nextInt(n);
+            
+            /*
+             * If x and y are already connected, continue
+             * else add an edge between x and y and increment edge count
+             * If the size of the subset of x and y is greater than maxt, update maxt
+             */
             if (x != y && ! hasEdge(x, y))
             {
             	
@@ -91,6 +109,11 @@ public class ERPhaseTransition
                 
             }
         }
+        
+        /*
+         * Get operations counts from the union-find object then reset it
+         * Return the new edge count
+         */
         this.getCount = UF.getCountGet();
         this.setCount = UF.getCountSet();
         UF.setCountGet();
@@ -100,16 +123,26 @@ public class ERPhaseTransition
     
     public static void main(String[] args)
     {
-        int n = Integer.parseInt(args[0]);
-        int rep = Integer.parseInt(args[1]);
+        //The random graph contains n vertices.
+    	int n = Integer.parseInt(args[0]);
         
-        for (int r=0; r<rep; r++)
+    	//The amount of connected graphs to generate
+    	int rep = Integer.parseInt(args[1]);
+        
+        //Generate random graphs rep times
+    	for (int r=0; r<rep; r++)
         {
         	
+    		//Adds edges to a new graph until it's connected
             ERPhaseTransition PT = new ERPhaseTransition(n);
             
+            //N denotes the amount of edges randomly generated until the graph is connected
             long N = PT.getTransitionGiantComponent(n);
             
+            /*
+             * Outputs the number of vertices, edges, the amount of get operations, set operations
+             * and total operations
+             */
             System.out.println(n+"\t"+N+"\t"+getCount+"\t"+setCount + "\t" + (getCount+setCount));
         }
     }
