@@ -124,8 +124,7 @@ public class ERPhaseTransition
     public static void main(String[] args)
     {
         //The random graph contains n vertices.
-    	int n = Integer.parseInt(args[0]);
-        
+    	int n = Integer.parseInt(args[0]);  
     	//The amount of connected graphs to generate
     	int rep = Integer.parseInt(args[1]);
         
@@ -140,10 +139,11 @@ public class ERPhaseTransition
             long N = PT.getTransitionGiantComponent(n);
             
             /*
-             * Outputs the number of vertices, edges, the amount of get operations, set operations
-             * and total operations
+             * Outputs the number of vertices, edges, the amount of get operations, set operations,
+             * total operations and amortized cost
              */
-            System.out.println(n+"\t"+N+"\t"+getCount+"\t"+setCount + "\t" + (getCount+setCount));
+            System.out.println(n+"\t"+N+"\t"+getCount+"\t"+setCount + "\t" + (getCount+setCount) + "\t" +
+             (getCount+setCount)/N);
         }
     }
     

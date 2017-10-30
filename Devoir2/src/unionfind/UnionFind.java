@@ -85,7 +85,6 @@ public class UnionFind
             	if (DEBUG_COUNT_OPERATIONS) countSet++;
             }
         }
-        //printObject();
         return size[p];
     }
     
@@ -118,7 +117,6 @@ public class UnionFind
     		rank[y] += 1;
     	}
     	parent[x] = y;
-    	//rank[y]++?
     	if (DEBUG_COUNT_OPERATIONS) countSet++;
     }
     
