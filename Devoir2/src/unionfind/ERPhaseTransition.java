@@ -114,8 +114,8 @@ public class ERPhaseTransition
          * Get operations counts from the union-find object then reset it
          * Return the new edge count
          */
-        this.getCount = UF.getCountGet();
-        this.setCount = UF.getCountSet();
+        ERPhaseTransition.getCount = UF.getCountGet();
+        ERPhaseTransition.setCount = UF.getCountSet();
         UF.setCountGet();
         UF.setCountSet();
         return N;
