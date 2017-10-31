@@ -71,12 +71,12 @@ public class UnionFindNaive
             size[p] = s;
             size[q] = s;
             for (int z=0; z<this.parent.length; z++) {
+            	if (DEBUG_COUNT_OPERATIONS) countGet++;
             	if (parent[z] == p) {
             		if (DEBUG_COUNT_OPERATIONS) countSet++;
             		parent[z] = q;
             	}
             }
-            printObject();
             return s;
         }
         //Add getcount here??!
@@ -99,6 +99,23 @@ public class UnionFindNaive
     		}
     	}
     	System.out.println("]");
+    }
+    
+    public boolean hasEdge(int x, int y) {
+    	
+    	while (x != parent[x]) {
+    		x = parent[x];
+    	}
+    	
+    	while (y != parent[y]) {
+    		y = parent[y];
+    	}
+    	
+    	if (x==y) {
+    		return true;
+    	}
+    	
+    	return false;
     }
     
 }
