@@ -27,7 +27,7 @@ package unionfind;
 
 /**
  *
- * @author Mikl&oacute;s Cs&#369;r&ouml;s
+ * @author Kyle Goyette and Simon Pilon Besozzi
  */
 public class UnionFind 
 {
@@ -36,12 +36,14 @@ public class UnionFind
     private int[] rank;
     private static long countGet;
     private static long countSet;
+    
+    //These booleans are to toggle the different union-find methods and the operations count
     private static final boolean DEBUG_COUNT_OPERATIONS = true;
     private static final boolean PATH_COMPRESSION = false;
     private static final boolean PATH_COMPRESSION_HALF = false;
     private static final boolean LINK_BY_RANK = true;
 
-    
+    //@param n (number of vertices)
     public UnionFind(int n)
     {
         this.parent = new int[n];
@@ -54,10 +56,11 @@ public class UnionFind
             if (LINK_BY_RANK) {
             	rank[i] = 1;
             }
-        }
-        
+        }  
     }
 
+    //Set resets the operations count
+    //Get returns the operations count
     void setCountGet(){ countGet = 0;}
     void setCountSet(){ countSet = 0;}
     long getCountGet(){ return countGet;}
@@ -89,6 +92,7 @@ public class UnionFind
     }
     
     
+    //Finds the representative element of the set
     public int find(int x)
     {
         if (PATH_COMPRESSION_HALF) {
@@ -110,20 +114,15 @@ public class UnionFind
         return x;
     }
     
+      /**
+     * This secondary hasEdge method is used for bigger graphs, where using an 
+     * adjacency list would make the program too slow (for 2^24+ vertices)
+     * @param x
+     * @param y
+     * @return true if x and y have an edge between them
+     */
     public boolean hasEdge(int x, int y) {
-    	
-    	/*while (x != parent[x]) {
-    		x = parent[x];
-    	}
-    	
-    	while (y != parent[y]) {
-    		y = parent[y];
-    	}
-    	
-    	if (x==y) {
-    		return true;
-    	}*/
-    	
+    
     	if(parent[x]==y || parent[y]==x) {
     		return true;
     	}
@@ -131,11 +130,13 @@ public class UnionFind
     	return false;
     }
     
+    //Returns the parent of x
     public int getParent(int x) {
     	if (DEBUG_COUNT_OPERATIONS) countGet++;
     	return parent[x];
     }
     
+    //Sets the parent of x
     public void setParent(int x,int val) {
     	if (DEBUG_COUNT_OPERATIONS) countSet++;
     	parent[x] = val;
