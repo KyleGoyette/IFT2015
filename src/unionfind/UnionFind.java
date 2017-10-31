@@ -38,6 +38,7 @@ public class UnionFind
     private static long countSet;
     private static final boolean DEBUG_COUNT_OPERATIONS = true;
     private static final boolean PATH_COMPRESSION = false;
+    private static final boolean PATH_COMPRESSION_HALF = true;
     private static final boolean LINK_BY_RANK = true;
 
     
@@ -81,32 +82,59 @@ public class UnionFind
             if (LINK_BY_RANK) {
             	join(p,q);
             } else {
-            	parent[p] = q;
-            	if (DEBUG_COUNT_OPERATIONS) countSet++;
+            	setParent(p,q);
             }
         }
-        //printObject();
         return size[p];
     }
     
     
     public int find(int x)
     {
-        if (PATH_COMPRESSION) {
-        	int y = parent[x];
-        	if (DEBUG_COUNT_OPERATIONS) countGet++;
+        if (PATH_COMPRESSION_HALF) {
+        	while (x != getParent(x)) {
+            	setParent(x,getParent(getParent(x)));
+            	x = getParent(x);
+        	}
+        } else if (PATH_COMPRESSION) {
+        	int y = getParent(x);
         	if (x != y) {
-        		parent[x] = find(y);
-        		if (DEBUG_COUNT_OPERATIONS) countSet++;
-        		return parent[x];
+        		setParent(x,find(y));
+        		return getParent(x);
         	}
         } else {
-        	while (parent[x] != x) {
-        		x = parent[x];
-        		if (DEBUG_COUNT_OPERATIONS) countGet++;
+        	while (getParent(x) != x) {
+        		x = getParent(x);
         	}
         }
         return x;
+    }
+    
+    public boolean hasEdge(int x, int y) {
+    	
+    	while (x != parent[x]) {
+    		x = parent[x];
+    	}
+    	
+    	while (y != parent[y]) {
+    		y = parent[y];
+    	}
+    	
+    	if (x==y) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    public int getParent(int x) {
+    	if (DEBUG_COUNT_OPERATIONS) countGet++;
+    	return parent[x];
+    }
+    
+    public void setParent(int x,int val) {
+    	if (DEBUG_COUNT_OPERATIONS) countSet++;
+    	parent[x] = val;
     }
     
     public void join(int x,int y) {
@@ -117,8 +145,7 @@ public class UnionFind
     	} else if (rank[x] == rank[y]) {
     		rank[y] += 1;
     	}
-    	parent[x] = y;
-    	if (DEBUG_COUNT_OPERATIONS) countSet++;
+    	setParent(x,y);
     }
     
     public void printObject() {
