@@ -40,13 +40,13 @@ public class ERPhaseTransition
     private ERPhaseTransition(int n)
     {
         //Union-Find Structure
-        this.UF = new UnionFind(n);
+        this.UF = new UnionFindNaive(n);
         this.adjacencyList = new AdjacencyList(n);
         this.getCount = 0;
         this.setCount = 0;
     }
     
-    private final UnionFind UF;
+    private final UnionFindNaive UF;
     private final Random RND = new Random();
     private AdjacencyList adjacencyList;
     private static long getCount;
