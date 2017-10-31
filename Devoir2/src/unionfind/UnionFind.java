@@ -37,8 +37,8 @@ public class UnionFind
     private static long countGet;
     private static long countSet;
     private static final boolean DEBUG_COUNT_OPERATIONS = true;
-    private static final boolean PATH_COMPRESSION = true;
-    private static final boolean PATH_COMPRESSION_HALF = false;
+    private static final boolean PATH_COMPRESSION = false;
+    private static final boolean PATH_COMPRESSION_HALF = true;
     private static final boolean LINK_BY_RANK = true;
 
     

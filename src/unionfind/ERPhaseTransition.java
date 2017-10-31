@@ -132,6 +132,7 @@ public class ERPhaseTransition
     {
         //The random graph contains n vertices.
     	int n = Integer.parseInt(args[0]);  
+    	
     	//The amount of connected graphs to generate
     	int rep = Integer.parseInt(args[1]);
         

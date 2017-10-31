@@ -112,7 +112,7 @@ public class UnionFind
     
     public boolean hasEdge(int x, int y) {
     	
-    	while (x != parent[x]) {
+    	/*while (x != parent[x]) {
     		x = parent[x];
     	}
     	
@@ -121,6 +121,10 @@ public class UnionFind
     	}
     	
     	if (x==y) {
+    		return true;
+    	}*/
+    	
+    	if(parent[x]==y || parent[y]==x) {
     		return true;
     	}
     	
