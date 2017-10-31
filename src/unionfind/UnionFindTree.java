@@ -27,28 +27,40 @@ package unionfind;
 
 /**
  *
- * @author Mikl&oacute;s Cs&#369;r&ouml;s
+ * @author Kyle Goyette and Simon Pilon Besozzi
  */
-public class UnionFindNaive implements UnionFind
+public class UnionFindTree implements UnionFind 
 {
     private int[] parent;
     private int[] size;
-    private static long countGet = 0;
-    private static long countSet = 0;
-    private static final boolean DEBUG_COUNT_OPERATIONS=true;
+    private int[] rank;
+    private static long countGet;
+    private static long countSet;
     
-    public UnionFindNaive(int n)
+    //These booleans are to toggle the different union-find methods and the operations count
+    private static final boolean DEBUG_COUNT_OPERATIONS = true;
+    private static final boolean PATH_COMPRESSION = false;
+    private static final boolean PATH_COMPRESSION_HALF = false;
+    private static final boolean LINK_BY_RANK = true;
+
+    //@param n (number of vertices)
+    public UnionFindTree(int n)
     {
         this.parent = new int[n];
         this.size = new int[n];
+        this.rank = new int[n];
         for (int i=0; i<n; i++)
         {
             parent[i] = i;
             size[i]=1;
-        }
-
+            if (LINK_BY_RANK) {
+            	rank[i] = 1;
+            }
+        }  
     }
-    
+
+    //Set resets the operations count
+    //Get returns the operations count
     public void setCountGet(){ countGet = 0;}
     public void setCountSet(){ countSet = 0;}
     public long getCountGet(){ return countGet;}
@@ -65,28 +77,80 @@ public class UnionFindNaive implements UnionFind
     {
         int p = find(x);
         int q = find(y);
-        
-        if (p!=q) {
+        if (p!=q)
+        {
             int s = size[p]+size[q];
             size[p] = s;
             size[q] = s;
-            for (int z=0; z<this.parent.length; z++) {
-            	if (DEBUG_COUNT_OPERATIONS) countGet++;
-            	if (parent[z] == p) {
-            		if (DEBUG_COUNT_OPERATIONS) countSet++;
-            		parent[z] = q;
-            	}
+            if (LINK_BY_RANK) {
+            	join(p,q);
+            } else {
+            	setParent(p,q);
             }
-            return s;
         }
-        return size[q];       
-        
+        return size[p];
     }
     
+    
+    //Finds the representative element of the set
     public int find(int x)
     {
+        if (PATH_COMPRESSION_HALF) {
+        	while (x != getParent(x)) {
+            	setParent(x,getParent(getParent(x)));
+            	x = getParent(x);
+        	}
+        } else if (PATH_COMPRESSION) {
+        	int y = getParent(x);
+        	if (x != y) {
+        		setParent(x,find(y));
+        		return getParent(x);
+        	}
+        } else {
+        	while (getParent(x) != x) {
+        		x = getParent(x);
+        	}
+        }
+        return x;
+    }
+    
+      /**
+     * This secondary hasEdge method is used for bigger graphs, where using an 
+     * adjacency list would make the program too slow (for 2^24+ vertices)
+     * @param x
+     * @param y
+     * @return true if x and y have an edge between them
+     */
+    public boolean hasEdge(int x, int y) {
+    
+    	if(parent[x]==y || parent[y]==x) {
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    //Returns the parent of x
+    public int getParent(int x) {
     	if (DEBUG_COUNT_OPERATIONS) countGet++;
-        return parent[x];
+    	return parent[x];
+    }
+    
+    //Sets the parent of x
+    public void setParent(int x,int val) {
+    	if (DEBUG_COUNT_OPERATIONS) countSet++;
+    	parent[x] = val;
+    }
+    
+    public void join(int x,int y) {
+    	if ( rank[y] < rank[x] ) {
+    		int temp = x;
+    		x=y;
+    		y=temp;
+    	} else if (rank[x] == rank[y]) {
+    		rank[y] += 1;
+    	}
+    	setParent(x,y);
     }
     
     public void printObject() {
@@ -99,22 +163,4 @@ public class UnionFindNaive implements UnionFind
     	}
     	System.out.println("]");
     }
-    
-    public boolean hasEdge(int x, int y) {
-    	
-    	while (x != parent[x]) {
-    		x = parent[x];
-    	}
-    	
-    	while (y != parent[y]) {
-    		y = parent[y];
-    	}
-    	
-    	if (x==y) {
-    		return true;
-    	}
-    	
-    	return false;
-    }
-    
 }

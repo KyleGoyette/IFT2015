@@ -37,21 +37,32 @@ import java.util.Random;
 
 public class ERPhaseTransition 
 {
-    private ERPhaseTransition(int n)
+    private ERPhaseTransition(int n, String type)
     {
-        //Union-Find Structure
-        this.UF = new UnionFindNaive(n);
-        this.adjacencyList = new AdjacencyList(n);
         this.getCount = 0;
         this.setCount = 0;
+        this.useAdjacencyList = (n >= Math.pow(2, 24)) ? false: true;
+        //Union-Find Structure
+        if (this.useAdjacencyList) {
+        	this.adjacencyList = new AdjacencyList(n);
+        }
+        
+        if (type.equals("Naive")) {
+        	if (n >= Math.pow(2,16) ) {
+        		throw new java.lang.Error("Naive implementation cannot handle more than 2^16 nodes");
+        	}
+        	this.UF = new UnionFindNaive(n);
+        } else {
+        	this.UF = new UnionFindTree(n);
+        }
     }
     
-    private final UnionFindNaive UF;
+    private final UnionFind UF;
     private final Random RND = new Random();
     private AdjacencyList adjacencyList;
     private static long getCount;
     private static long setCount;
-    private final boolean useAdjacencyList = false;
+    private final boolean useAdjacencyList;
     
     //Returns true if the vertices x and y are connected
     boolean hasEdge(int x, int y)
@@ -135,13 +146,15 @@ public class ERPhaseTransition
     	
     	//The amount of connected graphs to generate
     	int rep = Integer.parseInt(args[1]);
+        String type =  args[2];
+        
         
         //Generate random graphs rep times
     	for (int r=0; r<rep; r++)
         {
         	
     		//Adds edges to a new graph until it's connected
-            ERPhaseTransition PT = new ERPhaseTransition(n);
+            ERPhaseTransition PT = new ERPhaseTransition(n, type);
             
             //N denotes the amount of edges randomly generated until the graph is connected
             long N = PT.getTransitionGiantComponent(n);
