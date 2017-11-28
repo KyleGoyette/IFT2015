@@ -23,21 +23,23 @@ public class Simulate {
 		while (!eventQ.isEmpty()) {
 			Event E = eventQ.poll();
 			if (E.time>Tmax) break;
+			
+			//remove all Sims meant to die
+			Sim deathSim = population.peakMin();
+			while (deathSim.getDeathTime()<=E.time) {
+				population.removeMin();
+				deathSim = population.peakMin();
+			}
 			if (E.subject.getDeathTime()>E.time) {
 				switch (E.type) {
 				case Birth:
-					
 					if (E.subject.getSex() == Sim.Sex.F) {
 						double startReproTime = Sim.MIN_MATING_AGE_F + E.time;
 						Event reproEvent = new Event(E.subject,Event.eventType.Reproduction,startReproTime);
 						eventQ.add(reproEvent);
 					}
-					//TODO make deathTime follow model
-					double deathTime = ageModel.randomAge(RND);
-					Event deathEvent = new Event(E.subject,Event.eventType.Death,deathTime);
-					eventQ.add(deathEvent);
-					
-					
+					double deathTime = ageModel.randomAge(RND) + E.time;
+					E.subject.setDeathTime(deathTime);
 					population.insert(E.subject);
 				case Reproduction:
 					Sim lastMate = E.subject.getMate();
@@ -52,13 +54,11 @@ public class Simulate {
 						eventQ.add(reproEvent);
 					}
 				}
-			} else {
-				
 			}
 		}
 		
 	}
-/*	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
+	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
 		Sim newMate;
 		if (lastMate != null) {
 			
@@ -69,12 +69,12 @@ public class Simulate {
 			}
 		}
 		return lastMate;
-	}*/
+	}
 	
-/*	public Sim chooseRandomMate(double time) {
+	public Sim chooseRandomMate(double time) {
 		return;
 	}
-*/	
+	
 	public Sim reproduce(Sim mother, Sim father, double time) {
 		Sim.Sex sex = Sim.Sex.M;
 		Sim child = new Sim(mother,father,time,sex);

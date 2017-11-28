@@ -1,7 +1,7 @@
 
 
 public class Event {
-	public enum eventType {Birth, Death, Reproduction};
+	public enum eventType {Birth, Reproduction};
 	public Sim subject;
 	public eventType type;
 	public double time;

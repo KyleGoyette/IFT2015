@@ -72,8 +72,10 @@ public class Population {
 		siftDown(0);
 		
 		return removedSim;
-		
-		
+	}
+	
+	public Sim peakMin() {
+		return population.get(0);
 	}
 
 }
