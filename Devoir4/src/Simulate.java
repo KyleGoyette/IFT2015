@@ -53,28 +53,28 @@ public class Simulate {
 					}
 				}
 			} else {
-				population.remove(E.subject);
+				
 			}
 		}
 		
 	}
-	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
+/*	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
 		Sim newMate;
 		if (lastMate != null) {
 			
 		} else {
-			newMate = chooseRandomMate(time);
-			while (newMate.isMatingAge(time)) {
+			//newMate = chooseRandomMate(time);
+			//while (newMate.isMatingAge(time)) {
 				
 			}
 		}
 		return lastMate;
-	}
+	}*/
 	
-	public Sim chooseRandomMate(double time) {
+/*	public Sim chooseRandomMate(double time) {
 		return;
 	}
-	
+*/	
 	public Sim reproduce(Sim mother, Sim father, double time) {
 		Sim.Sex sex = Sim.Sex.M;
 		Sim child = new Sim(mother,father,time,sex);

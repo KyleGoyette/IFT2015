@@ -36,19 +36,31 @@ public class Population {
 	}
 	
 	public void siftDown(int index) {
-		Sim leftSim = population.get(2*index);
-		Sim rightSim  = population.get(2*index+1);
-		if (leftSim.getDeathTime() <= rightSim.getDeathTime()) {
+		Sim leftSim; Sim rightSim; Sim parentSim = population.get(index);
+		if (2*index>population.size()) {
+			return;
+		} else if (2*index==population.size()) { 
+			parentSim = population.get(index);
+			leftSim = population.get(2*index);
+			if (parentSim.getDeathTime() < leftSim.getDeathTime()) {
+				Collections.swap(population,index,2*index);
+			}
+			return;
+		} else {
+			leftSim = population.get(2*index);
+			rightSim  = population.get(2*index+1);
+		}
+		
+		
+		if (leftSim.getDeathTime() <= rightSim.getDeathTime() && leftSim.getDeathTime() < parentSim.getDeathTime()) {
 			Collections.swap(population, index, 2*index);
 			siftDown(2*index);
-		} else {
+		} else if (rightSim.getDeathTime() <= leftSim.getDeathTime() && rightSim.getDeathTime() < parentSim.getDeathTime()) {
 			Collections.swap(population, index, 2*index+1);
 			siftDown(2*index + 1);
 		}
 		
-		
-		
-		
+		return;		
 	}
 	
 	public Sim removeMin() {
