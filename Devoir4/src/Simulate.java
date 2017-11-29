@@ -3,12 +3,11 @@ import java.util.Random;
 
 public class Simulate {
 	
-	
+	private Random RND = new Random();
 	private Population population;
 	private PriorityQueue<Event> eventQ;
 	
 	public void simulate(int n, double Tmax) {
-		Random RND = new Random();
 		AgeModel ageModel = new AgeModel();
 		double birthrate = 5;
 
@@ -96,8 +95,12 @@ public class Simulate {
 	}
 	
 	public Sim reproduce(Sim mother, Sim father, double time) {
-		
-		Sim.Sex sex = Sim.Sex.M;
+		Sim.Sex sex;
+		if (RND.nextFloat()>0.5) {
+			sex = Sim.Sex.M;
+		} else {
+			sex = Sim.Sex.F;
+		}
 		Sim child = new Sim(mother,father,time,sex);
 		return child;
 	}
