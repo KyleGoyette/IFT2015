@@ -80,7 +80,7 @@ public class Simulate {
 		Sim newMate = null;
 
 		while (newMate == null) {
-			int rdm = (int) Math.round(Math.random() * population.size);
+			int rdm = (int) Math.round(Math.random() * population.getSize());
 			Sim potential = population.population.get((rdm));
 			if (potential.getSex().equals(Sim.Sex.M) && potential.isMatingAge(time)) {
 				if (!potential.isInARelationship(time)) {

@@ -4,7 +4,6 @@ import java.util.Collections;
 
 public class Population {
 	public ArrayList<Sim> population;
-	public int size;
 	public int capacity;
 	
 	public Population(int n) {
@@ -14,7 +13,6 @@ public class Population {
 	}
 	
 	public void insert(Sim newSim) {
-		this.size +=1;
 		population.add(newSim);
 		int index = population.indexOf(newSim);
 		siftUp(index);
@@ -64,7 +62,6 @@ public class Population {
 	}
 	
 	public Sim removeMin() {
-		this.size -= 1;
 		int lastIndex = population.size() - 1;
 		Collections.swap(population, lastIndex, 0);
 		
@@ -76,6 +73,10 @@ public class Population {
 	
 	public Sim peakMin() {
 		return population.get(0);
+	}
+	
+	public int getSize() {
+		return population.size();
 	}
 
 }
