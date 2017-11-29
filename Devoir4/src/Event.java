@@ -8,7 +8,13 @@ public class Event {
 	
 	public Event(Sim subject, Event.eventType type, double time) {
 		this.type = type;
-		this.time = time;
+		if(time>= 0) {
+			this.time = time;
+		}
+		
+		else {
+			throw new InvalidParameterException("The time parameter must be non-negative");
+		}
 		this.subject = subject;
 	}
 	
