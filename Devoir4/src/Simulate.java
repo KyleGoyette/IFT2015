@@ -2,7 +2,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Simulate {
-	
+	private static final double FIDELITY = 0.5;
 
 	private Population population;
 	private PriorityQueue<Event> eventQ;
@@ -74,7 +74,6 @@ public class Simulate {
 	public Sim chooseRandomMate(double time) {
 
 		Sim newMate = null;
-		double fidelity = 0.1; //Fidelity parameter
 
 		while (newMate == null) {
 			int rdm = (int) Math.round(Math.random() * population.size);
@@ -82,7 +81,7 @@ public class Simulate {
 			if (potential.getSex().equals(Sim.Sex.M) && potential.isMatingAge(time)) {
 				if (!potential.isInARelationship(time)) {
 					newMate = potential;
-				} else if (Math.random() < fidelity) {
+				} else if (Math.random() < FIDELITY) {
 					newMate = potential;
 				}
 			}
