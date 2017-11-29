@@ -68,11 +68,27 @@ public class Simulate {
 				
 			}
 		}
-		return lastMate;
+		//return lastMate;
 	}
 	
 	public Sim chooseRandomMate(double time) {
-		return;
+
+		Sim newMate = null;
+		double fidelity = 0.1; //Fidelity parameter
+
+		while (newMate == null) {
+			int rdm = (int) Math.round(Math.random() * population.size);
+			Sim potential = population.population.get((rdm));
+			if (potential.getSex().equals(Sim.Sex.M) && potential.isMatingAge(time)) {
+				if (!potential.isInARelationship(time)) {
+					newMate = potential;
+				} else if (Math.random() < fidelity) {
+					newMate = potential;
+				}
+			}
+		}
+
+		return newMate;
 	}
 	
 	public Sim reproduce(Sim mother, Sim father, double time) {

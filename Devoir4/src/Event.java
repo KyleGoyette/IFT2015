@@ -1,4 +1,4 @@
-
+import java.security.InvalidParameterException;
 
 public class Event {
 	public enum eventType {Birth, Reproduction};
@@ -8,6 +8,7 @@ public class Event {
 	
 	public Event(Sim subject, Event.eventType type, double time) {
 		this.type = type;
+		
 		if(time>= 0) {
 			this.time = time;
 		}
@@ -15,6 +16,7 @@ public class Event {
 		else {
 			throw new InvalidParameterException("The time parameter must be non-negative");
 		}
+		
 		this.subject = subject;
 	}
 	
