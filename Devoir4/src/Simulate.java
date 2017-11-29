@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Simulate {
 	
-
+	
 	private Population population;
 	private PriorityQueue<Event> eventQ;
 	
@@ -12,10 +12,14 @@ public class Simulate {
 		AgeModel ageModel = new AgeModel();
 		double birthrate = 5;
 
-		
+		Sim founder;
 		this.eventQ = new PriorityQueue<Event>();
 		for (int i=0; i<n; i++) {
-			Sim founder = new Sim(Sim.Sex.M);
+			if (RND.nextFloat()>0.5 ) {
+				founder = new Sim(Sim.Sex.M);
+			} else {
+				founder = new Sim(Sim.Sex.F);
+			}
 			Event E = new Event(founder, Event.eventType.Birth, 0.0);
 			eventQ.add(E);
 		}
@@ -92,6 +96,7 @@ public class Simulate {
 	}
 	
 	public Sim reproduce(Sim mother, Sim father, double time) {
+		
 		Sim.Sex sex = Sim.Sex.M;
 		Sim child = new Sim(mother,father,time,sex);
 		return child;
