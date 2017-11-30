@@ -26,6 +26,7 @@ public class Coalescence {
 	   PA = new HashMap<Double, Integer>();
 	   MA = new HashMap<Double, Integer>();
 	}
+
 	/* Build Coalescance Map between time and number of lineages for patriarchal lines
 	 * @returns Hashmap of time to number of father lineages
 	 */
@@ -42,6 +43,7 @@ public class Coalescence {
 		}
 		return PA;
 	}
+
 	/* Build Coalescance Map between time and number of lineages for matriarchal lines
 	 * @returns Hashmap of time to number of mother lineages
 	 */

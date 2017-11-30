@@ -6,7 +6,6 @@ public class Simulate {
 	private Random RND = new Random();
 	private Population population;
 	private PriorityQueue<Event> eventQ;
-	private Coalescence coalescence;
 	
 	/* Simulates a population model 
 	 * @params: n is number of founders, Tmax number of years for model simulation
@@ -80,6 +79,7 @@ public class Simulate {
 		}
 		
 	}
+
 	/*Determines whether a female will choose a new mate or (if possible) stay with last mate
 	 * @params: subject (female in reproduction event), lastMate, time
 	 * @returns: selected mate
@@ -96,6 +96,7 @@ public class Simulate {
 
 		return newMate;
 	}
+
 	/* Randomly selects viable mate for a females reproduction event
 	 * @params: time
 	 * @returns: new mate
@@ -121,6 +122,7 @@ public class Simulate {
 
         return newMate;
     }
+
 	/* Creates new sim for birth event, sets parents as mates
 	 * @params: Sim mother, Sim father, time
 	 * @returns: child of two sims
@@ -132,8 +134,6 @@ public class Simulate {
 		father.setMate(mother);
 		return child;
 	}
-	
-	    
 
 	public static void main(String[] args) {
 	        Simulate test = new Simulate();
