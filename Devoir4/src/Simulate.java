@@ -131,61 +131,9 @@ public class Simulate {
 		return child;
 	}
 	
-	   public Sim ancestryP(Sim a){
-
-	        while(a.getFather()!=null){
-	            a = a.getFather();
-	        }
-
-	        return a;
-	   }
-	   
-	   public Sim ancestryM(Sim a){
-
-	        while(a.getMother()!=null){
-	            a = a.getMother();
-	        }
-
-	        return a;
-
-	    }
-
-	    public LinkedList<Sim> coalP(Population population){
-
-	        LinkedList<Sim> result = new LinkedList<>();
-
-	        for(int i = population.population.size()-1; i>=0; i--){
-
-	            Sim currentA = ancestryP(population.population.get(i));
-
-	            if(!result.contains(currentA)){
-	                result.add(currentA);
-	            }
-	        }
-
-	        System.out.println("Number of paternal lineages: "+result.size());
-	        return result;
-	    }
-
-	    public LinkedList<Sim> coalM(Population population){
-
-	        LinkedList<Sim> result = new LinkedList<>();
-
-	        for(int i = population.population.size()-1; i>=0; i--){
-
-	            Sim currentA = ancestryM(population.population.get(i));
-
-	            if(!result.contains(currentA)){
-	                result.add(currentA);
-	            }
-	        }
-
-	        System.out.println("Number of maternal lineages: "+result.size());
-	        return result;
-	    }
 	    
 
-	    public static void main(String[] args) {
+	public static void main(String[] args) {
 	        Simulate test = new Simulate();
 	        test.simulate(1000,1000);
 	        System.out.println(test.BIRTHRATE);
@@ -193,5 +141,5 @@ public class Simulate {
 	        coalescence.makePA();
 	        coalescence.makeMA();
 	        coalescence.PA.entrySet().forEach(System.out::println);
-	    }
+	}
 }

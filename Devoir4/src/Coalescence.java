@@ -29,14 +29,9 @@ public class Coalescence {
 		while (!coalescenceQM.isEmpty()) {
 			Sim youngestSim = coalescenceQM.poll();
 			double birthtime = youngestSim.getBirthTime();
-			//System.out.println(youngestSim.getBirthTime());
 			Sim father = youngestSim.getFather();
-			if (coalescenceQM.contains(father) || father ==null) {
-				birthtime = youngestSim.getBirthTime();
-				
-				//System.out.println(birthtime.intValue());
+			if (coalescenceQM.contains(father) || father ==null) {				
 				PA.put(birthtime, coalescenceQM.size());
-				//System.out.println(hello);
 			} else {
 				coalescenceQM.add(father);
 			}
@@ -47,12 +42,13 @@ public class Coalescence {
 	public void makeMA() {
 		while (!coalescenceQF.isEmpty()) {
 			Sim youngestSim = coalescenceQF.remove();
+			double birthtime = youngestSim.getBirthTime();
 			Sim mother = youngestSim.getMother();
 			
 			if (coalescenceQF.contains(mother) || mother == null) {
-				MA.put(youngestSim.getBirthTime(), coalescenceQF.size());
+				MA.put(birthtime, coalescenceQF.size());
 			} else {
-				coalescenceQM.add(mother);
+				coalescenceQF.add(mother);
 			}
 		}
 	}
