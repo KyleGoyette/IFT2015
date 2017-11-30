@@ -14,7 +14,7 @@ public class Simulate {
 		double lastReportTime = 0;
 		AgeModel ageModel = new AgeModel();
 		population = new Population(n);
-		this.BIRTHRATE = 2.0/ageModel.expectedParenthoodSpan(Sim.MIN_MATING_AGE_F, Sim.MAX_MATING_AGE_F);
+		this.BIRTHRATE = 1.989/ageModel.expectedParenthoodSpan(Sim.MIN_MATING_AGE_F, Sim.MAX_MATING_AGE_F);
 		Sim founder;
 		this.eventQ = new PriorityQueue<Event>();
 		for (int i=0; i<n; i++) {
@@ -134,25 +134,32 @@ public class Simulate {
 	}
 
 	public static void main(String[] args) {
+		int n; int Tmax;
+		if (args.length != 2) {
+			System.out.println("Invalid number of arguments");
+		} else {
+			n = new Integer(args[0]);
+			Tmax = new Integer(args[1]);
 		
-		Simulate test = new Simulate();
-	    test.simulate(100,1000);
+			Simulate test = new Simulate();
+			test.simulate(n,Tmax);
 	        
-	        
-	    Coalescence coalescence = new Coalescence(test.population);
-	    HashMap<Double,Integer> MA = coalescence.makeMA();
-	    HashMap<Double,Integer> PA = coalescence.makePA();
-	    System.out.println("Paternal Lineages");
-		Object[] keysPA = PA.keySet().toArray();
-		Arrays.sort(keysPA);
-	    for (Object key: keysPA) {
-	       	System.out.println(key + "," + PA.get(key));
-	    }
-	    System.out.println("Maternal Lineages");
-		Object[] keysMA = MA.keySet().toArray();
-		Arrays.sort(keysMA);
-	    for (Object key: keysMA) {
-	       	System.out.println(key + "," + MA.get(key));
-	    }
+	        /* Coalescence implementation */
+			Coalescence coalescence = new Coalescence(test.population);
+			HashMap<Double,Integer> MA = coalescence.makeMA();
+			HashMap<Double,Integer> PA = coalescence.makePA();
+			System.out.println("Paternal Lineages");
+			Object[] keysPA = PA.keySet().toArray();
+			Arrays.sort(keysPA);
+			for (Object key: keysPA) {
+				System.out.println(key + "," + PA.get(key));
+			}
+			System.out.println("Maternal Lineages");
+			Object[] keysMA = MA.keySet().toArray();
+			Arrays.sort(keysMA);
+			for (Object key: keysMA) {
+				System.out.println(key + "," + MA.get(key));
+			}
+		}
 	}
 }
