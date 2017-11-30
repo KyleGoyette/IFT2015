@@ -135,12 +135,17 @@ public class Simulate {
 
 	public static void main(String[] args) {
 	        Simulate test = new Simulate();
-	        test.simulate(1000,1000);
+	        test.simulate(100,1000);
 	        Coalescence coalescence = new Coalescence(test.population);
-	        HashMap<Double,Integer> what = coalescence.makeMA();
-	        //coalescence.makeMA();
-	        for (double key: what.keySet()) {
-	        	System.out.println(key + "," + what.get(key));
+	        HashMap<Double,Integer> MA = coalescence.makeMA();
+	        HashMap<Double,Integer> PA = coalescence.makePA();
+	        System.out.println("Paternal Lineages");
+	        for (double key: PA.keySet()) {
+	        	System.out.println(key + "," + PA.get(key));
+	        }
+	        System.out.println("Maternal Lineages");
+	        for (double key: MA.keySet()) {
+	        	System.out.println(key + "," + MA.get(key));
 	        }
 	}
 }

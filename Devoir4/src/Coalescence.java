@@ -37,6 +37,9 @@ public class Coalescence {
 			Sim father = youngestSim.getFather();
 			if (coalescenceQM.contains(father) || father ==null) {				
 				PA.put(birthtime, coalescenceQM.size());
+				if (father == null) {
+					break;
+				}
 			} else {
 				coalescenceQM.add(father);
 			}
@@ -54,7 +57,12 @@ public class Coalescence {
 			Sim mother = youngestSim.getMother();
 			
 			if (coalescenceQF.contains(mother) || mother == null) {
+				
 				MA.put(birthtime, coalescenceQF.size());
+				if (mother == null) {
+					System.out.println("HELLO");
+					break;
+				}
 			} else {
 				coalescenceQF.add(mother);
 			}
