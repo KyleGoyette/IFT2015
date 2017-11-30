@@ -134,22 +134,25 @@ public class Simulate {
 	}
 
 	public static void main(String[] args) {
-	        Simulate test = new Simulate();
-	        test.simulate(100,1000);
-	        Coalescence coalescence = new Coalescence(test.population);
-	        HashMap<Double,Integer> MA = coalescence.makeMA();
-	        HashMap<Double,Integer> PA = coalescence.makePA();
-	        System.out.println("Paternal Lineages");
-			Object[] keysPA = PA.keySet().toArray();
-			Arrays.sort(keysPA);
-	        for (Object key: keysPA) {
-	        	System.out.println(key + "," + PA.get(key));
-	        }
-	        System.out.println("Maternal Lineages");
-			Object[] keysMA = MA.keySet().toArray();
-			Arrays.sort(keysMA);
-	        for (Object key: keysMA) {
-	        	System.out.println(key + "," + MA.get(key));
-	        }
+		
+		Simulate test = new Simulate();
+	    test.simulate(100,1000);
+	        
+	        
+	    Coalescence coalescence = new Coalescence(test.population);
+	    HashMap<Double,Integer> MA = coalescence.makeMA();
+	    HashMap<Double,Integer> PA = coalescence.makePA();
+	    System.out.println("Paternal Lineages");
+		Object[] keysPA = PA.keySet().toArray();
+		Arrays.sort(keysPA);
+	    for (Object key: keysPA) {
+	       	System.out.println(key + "," + PA.get(key));
+	    }
+	    System.out.println("Maternal Lineages");
+		Object[] keysMA = MA.keySet().toArray();
+		Arrays.sort(keysMA);
+	    for (Object key: keysMA) {
+	       	System.out.println(key + "," + MA.get(key));
+	    }
 	}
 }
