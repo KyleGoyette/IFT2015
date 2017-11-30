@@ -8,7 +8,7 @@ public class Simulate {
 	private PriorityQueue<Event> eventQ;
 	
 	public void simulate(int n, double Tmax) {
-		
+		double lastReportTime = 0;
 		AgeModel ageModel = new AgeModel();
 		population = new Population(n);
 		this.BIRTHRATE = 2.0/ageModel.expectedParenthoodSpan(Sim.MIN_MATING_AGE_F, Sim.MAX_MATING_AGE_F);
@@ -23,16 +23,22 @@ public class Simulate {
 
 			Event E = new Event(founder, Event.eventType.Birth, 0.0);
 			eventQ.add(E);
-			population.insert(founder);
 		}
 
         while (!eventQ.isEmpty() && eventQ.peek().time<Tmax) {
-			Event E = eventQ.poll();
-            System.out.println("TIME: "+E.time);
+        	Event E = eventQ.poll();
+            
             if (E.time>Tmax) break;
-            System.out.println("Number of events left: " + eventQ.size());
-            System.out.println("Population size: " + population.getSize());
 
+
+            if (E.time>lastReportTime+100) {
+            	System.out.println("TIME: "+E.time);
+                System.out.println("Number of events left: " + eventQ.size());
+                System.out.println("Population size: " + population.getSize());
+                lastReportTime = E.time;
+            }
+            
+            
 			/*remove all Sims meant to die
 			Sim deathSim = population.peakMin();
 			while (deathSim.getDeathTime()<=E.time) {
@@ -45,7 +51,7 @@ public class Simulate {
 					if (E.subject.getSex() == Sim.Sex.F) {
 						double startReproTime = Sim.MIN_MATING_AGE_F + E.time + AgeModel.randomWaitingTime(RND, BIRTHRATE);
 						Event reproEvent = new Event(E.subject,Event.eventType.Reproduction,startReproTime);
-                        System.out.println("REPRO TIME: "+(startReproTime-E.time));
+                        //System.out.println("REPRO TIME: "+(startReproTime-E.time));
                         eventQ.add(reproEvent);
 					}
 					double deathTime = ageModel.randomAge(RND) + E.time;
@@ -53,7 +59,7 @@ public class Simulate {
 					Event death = new Event(E.subject, Event.eventType.Death, deathTime);
 					eventQ.add(death);
                     population.insert(E.subject);
-                    System.out.println("Sim "+E.subject.toString()+" is born");
+                    //System.out.println("Sim "+E.subject.toString()+" is born");
                     break;
                case Reproduction:
 					Sim lastMate = E.subject.getMate();
@@ -69,15 +75,15 @@ public class Simulate {
 					}
 
                case Death:
-            	   population.population.remove(E.subject);
+				   population.population.remove(E.subject);
                 }
-			} else{
-			    if(E.type == Event.eventType.Death){
-			        population.population.remove(E.subject); // Kills the SIM
-                    System.out.println("Sim "+E.subject.toString()+" is dead");
+			}
+			else{
+				population.population.remove(E.subject); // Kills the SIM
+                    //System.out.println("Sim "+E.subject.toString()+" is dead");
 
-                }
             }
+            
 		}
 		
 	}
@@ -119,6 +125,8 @@ public class Simulate {
 	public Sim reproduce(Sim mother, Sim father, double time) {
 		Sim.Sex sex = Math.random() < 0.5? Sim.Sex.M : Sim.Sex.F;
 		Sim child = new Sim(mother,father,time,sex);
+		mother.setMate(father);
+		father.setMate(mother);
 		return child;
 	}
 	
@@ -129,12 +137,11 @@ public class Simulate {
 	        }
 
 	        return a;
+	   }
+	   
+	   public Sim ancestryM(Sim a){
 
-	    }
-
-	    public Sim ancestryM(Sim a){
-
-	        while(a.getFather()!=null){
+	        while(a.getMother()!=null){
 	            a = a.getMother();
 	        }
 
