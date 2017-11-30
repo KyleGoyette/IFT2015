@@ -2,7 +2,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Simulate {
-	
+	private static final double BIRTHRATE = 5;
 	private static final double FIDELITY = 0.5;
 	private Random RND = new Random();
 	private Population population;
@@ -63,7 +63,7 @@ public class Simulate {
 					Event childBirth = new Event(child,Event.eventType.Birth,E.time);
 					eventQ.add(childBirth);
 	
-					double reproductionWaitTime = AgeModel.randomWaitingTime(RND, birthrate);
+					double reproductionWaitTime = AgeModel.randomWaitingTime(RND, BIRTHRATE);
 					if (E.subject.isMatingAge(E.time + reproductionWaitTime)) {
 						Event reproEvent = new Event(E.subject, Event.eventType.Reproduction, E.time + reproductionWaitTime);
 						eventQ.add(reproEvent);
