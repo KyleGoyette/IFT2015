@@ -60,15 +60,16 @@ public class Simulate {
 	}
 	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
 		Sim newMate;
-		if (lastMate != null) {
-			
+		//0.1 f (fidelity) parameter)
+		if (lastMate != null && Math.random() > 0.1) {
+			return lastMate;
 		} else {
-			//newMate = chooseRandomMate(time);
-			//while (newMate.isMatingAge(time)) {
-				
-			}
+
+		    newMate = chooseRandomMate(time);
+
 		}
-		//return lastMate;
+
+		return newMate;
 	}
 	
 	public Sim chooseRandomMate(double time) {
@@ -87,7 +88,7 @@ public class Simulate {
 				}
 			}
 		}
-
+		
 		return newMate;
 	}
 	
