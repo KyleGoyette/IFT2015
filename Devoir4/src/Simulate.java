@@ -126,6 +126,8 @@ public class Simulate {
 	public Sim reproduce(Sim mother, Sim father, double time) {
 		Sim.Sex sex = Math.random() < 0.5? Sim.Sex.M : Sim.Sex.F;
 		Sim child = new Sim(mother,father,time,sex);
+		mother.setMate(father);
+		father.setMate(mother);
 		return child;
 	}
 	
