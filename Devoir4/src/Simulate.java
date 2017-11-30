@@ -1,5 +1,4 @@
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 public class Simulate {
 	public double BIRTHRATE;
@@ -123,21 +122,63 @@ public class Simulate {
 		return child;
 	}
 	
-    public void ancestry(Sim a){
-        
-    	while(a.getFather()!=null){
-            a = a.getFather();
-        }
+	   public Sim ancestryP(Sim a){
 
-        System.out.println("The Sim's oldest ancestor is "+a.toString());
+	        while(a.getFather()!=null){
+	            a = a.getFather();
+	        }
 
-    }
+	        return a;
 
-    public static void main(String[] args) {
-        Simulate test = new Simulate();
-        test.simulate(1000,10000);
-        System.out.println(test.BIRTHRATE);
-        test.ancestry(test.population.population.get(test.population.population.size()-8));
-    }
+	    }
 
+	    public Sim ancestryM(Sim a){
+
+	        while(a.getFather()!=null){
+	            a = a.getMother();
+	        }
+
+	        return a;
+
+	    }
+
+	    public LinkedList<Sim> coalP(Population population){
+
+	        LinkedList<Sim> result = new LinkedList<>();
+
+	        for(int i = population.population.size()-1; i>=0; i--){
+
+	            Sim currentA = ancestryP(population.population.get(i));
+
+	            if(!result.contains(currentA)){
+	                result.add(currentA);
+	            }
+	        }
+
+	        System.out.println("Number of paternal lineages: "+result.size());
+	        return result;
+	    }
+
+	    public LinkedList<Sim> coalM(Population population){
+
+	        LinkedList<Sim> result = new LinkedList<>();
+
+	        for(int i = population.population.size()-1; i>=0; i--){
+
+	            Sim currentA = ancestryM(population.population.get(i));
+
+	            if(!result.contains(currentA)){
+	                result.add(currentA);
+	            }
+	        }
+
+	        System.out.println("Number of maternal lineages: "+result.size());
+	        return result;
+	    }
+
+	    public static void main(String[] args) {
+	        Simulate test = new Simulate();
+	        test.simulate(1000,10000);
+	        System.out.println(test.BIRTHRATE);
+	    }
 }
