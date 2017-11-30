@@ -30,10 +30,11 @@ public class Simulate {
 			eventQ.add(E);
 			population.insert(founder);
 		}
-		
-		while (!eventQ.isEmpty()) {
+
+        while (!eventQ.isEmpty() && eventQ.peek().time<Tmax) {
 			Event E = eventQ.poll();
-			if (E.time>Tmax) break;
+            System.out.println("TIME: "+E.time);
+            if (E.time>Tmax) break;
 
             System.out.println(eventQ.size());
 
@@ -130,7 +131,7 @@ public class Simulate {
 
     public static void main(String[] args) {
         Simulate test = new Simulate();
-        test.simulate(3,100);
+        test.simulate(3,65);
     }
 
 }
