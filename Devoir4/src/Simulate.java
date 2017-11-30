@@ -6,6 +6,8 @@ public class Simulate {
 	private Random RND = new Random();
 	private Population population;
 	private PriorityQueue<Event> eventQ;
+    private Map<Integer,Integer> lineageP = new HashMap<>();
+    private Map<Integer,Integer> lineageM = new HashMap<>();
 	
 	public void simulate(int n, double Tmax) {
 		double lastReportTime = 0;
@@ -36,6 +38,8 @@ public class Simulate {
                 System.out.println("Number of events left: " + eventQ.size());
                 System.out.println("Population size: " + population.getSize());
                 lastReportTime = E.time;
+                lineageP.put((int) Math.round(E.time), coalP(population).size());
+                lineageM.put((int) Math.round(E.time), coalM(population).size());
             }
             
             
@@ -185,10 +189,10 @@ public class Simulate {
 
     public static void main(String[] args) {
         Simulate test = new Simulate();
-        test.simulate(1000,3000);
+        test.simulate(10000,3000);
         System.out.println(test.BIRTHRATE);
-        test.coalM(test.population);
-        test.coalP(test.population);
+
+        System.out.println(test.lineageP.get(300));
 
     }
 }
