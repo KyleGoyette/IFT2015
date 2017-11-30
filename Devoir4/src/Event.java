@@ -1,7 +1,7 @@
 import java.security.InvalidParameterException;
 
-public class Event {
-	public enum eventType {Birth, Reproduction};
+public class Event implements Comparable<Event> {
+	public enum eventType {Birth, Reproduction, Death};
 	public Sim subject;
 	public eventType type;
 	public double time;
@@ -19,6 +19,19 @@ public class Event {
 		
 		this.subject = subject;
 	}
-	
-	
+
+	@Override
+	public int compareTo(Event o) {
+		if(this.time<o.time){
+			return -1;
+		}
+
+		if(this.time==o.time){
+			return 0;
+		}
+
+		else{
+			return 1;
+		}
+	}
 }
