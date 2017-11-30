@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 
@@ -66,6 +67,7 @@ public class Coalescence {
 				coalescenceQF.add(mother);
 			}
 		}
+
 		return MA;
 	}
 	

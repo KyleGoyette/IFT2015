@@ -140,11 +140,15 @@ public class Simulate {
 	        HashMap<Double,Integer> MA = coalescence.makeMA();
 	        HashMap<Double,Integer> PA = coalescence.makePA();
 	        System.out.println("Paternal Lineages");
-	        for (double key: PA.keySet()) {
+			Object[] keysPA = PA.keySet().toArray();
+			Arrays.sort(keysPA);
+	        for (Object key: keysPA) {
 	        	System.out.println(key + "," + PA.get(key));
 	        }
 	        System.out.println("Maternal Lineages");
-	        for (double key: MA.keySet()) {
+			Object[] keysMA = MA.keySet().toArray();
+			Arrays.sort(keysMA);
+	        for (Object key: keysMA) {
 	        	System.out.println(key + "," + MA.get(key));
 	        }
 	}
