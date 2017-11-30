@@ -136,10 +136,11 @@ public class Simulate {
 	public static void main(String[] args) {
 	        Simulate test = new Simulate();
 	        test.simulate(1000,1000);
-	        System.out.println(test.BIRTHRATE);
 	        Coalescence coalescence = new Coalescence(test.population);
-	        coalescence.makePA();
-	        coalescence.makeMA();
-	        coalescence.PA.entrySet().forEach(System.out::println);
+	        HashMap<Double,Integer> what = coalescence.makeMA();
+	        //coalescence.makeMA();
+	        for (double key: what.keySet()) {
+	        	System.out.println(key + "," + what.get(key));
+	        }
 	}
 }
