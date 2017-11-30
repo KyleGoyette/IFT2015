@@ -128,10 +128,21 @@ public class Simulate {
 		Sim child = new Sim(mother,father,time,sex);
 		return child;
 	}
+	
+    public void ancestry(Sim a){
+        
+    	while(a.getFather()!=null){
+            a = a.getFather();
+        }
+
+        System.out.println("The Sim's oldest ancestor is "+a.toString());
+
+    }
 
     public static void main(String[] args) {
         Simulate test = new Simulate();
         test.simulate(1000,10000);
+        test.ancestry(test.population.population.get(test.population.population.size()-8));
     }
 
 }
