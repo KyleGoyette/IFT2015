@@ -8,7 +8,9 @@ public class Coalescence {
 	public HashMap<Double, Integer> PA;
 	public HashMap<Double,Integer> MA;
 	
-	
+	/*Constructs priority queues from existing population but now ordered by birthdate
+	 * @params population (a binary heap of sims) ordered by deathtime 
+	 */
 	public Coalescence(Population population) {
 		coalescenceQM = new PriorityQueue<Sim>();
 		coalescenceQF = new PriorityQueue<Sim>();
@@ -24,7 +26,9 @@ public class Coalescence {
 	   PA = new HashMap<Double, Integer>();
 	   MA = new HashMap<Double, Integer>();
 	}
-	
+	/* Build Coalescance Map between time and number of lineages for patriarchal lines
+	 * @returns Hashmap of time to number of father lineages
+	 */
 	public HashMap<Double, Integer> makePA() {
 		while (!coalescenceQM.isEmpty()) {
 			Sim youngestSim = coalescenceQM.poll();
@@ -38,7 +42,9 @@ public class Coalescence {
 		}
 		return PA;
 	}
-	 
+	/* Build Coalescance Map between time and number of lineages for matriarchal lines
+	 * @returns Hashmap of time to number of mother lineages
+	 */
 	public HashMap<Double, Integer> makeMA() {
 		while (!coalescenceQF.isEmpty()) {
 			Sim youngestSim = coalescenceQF.remove();

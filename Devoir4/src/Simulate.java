@@ -8,6 +8,9 @@ public class Simulate {
 	private PriorityQueue<Event> eventQ;
 	private Coalescence coalescence;
 	
+	/* Simulates a population model 
+	 * @params: n is number of founders, Tmax number of years for model simulation
+	 */
 	public void simulate(int n, double Tmax) {
 		double lastReportTime = 0;
 		AgeModel ageModel = new AgeModel();
@@ -34,25 +37,16 @@ public class Simulate {
 
             if (E.time>lastReportTime+100) {
             	System.out.println("TIME: "+E.time);
-                //System.out.println("Number of events left: " + eventQ.size());
                 System.out.println("Population size: " + population.getSize());
                 lastReportTime = E.time;
             }
             
-            
-			/*remove all Sims meant to die
-			Sim deathSim = population.peakMin();
-			while (deathSim.getDeathTime()<=E.time) {
-				population.removeMin();
-				deathSim = population.peakMin();
-			}*/ //Now done with a Death event type
 			if (E!= null && E.subject.getDeathTime()>E.time) {
 				switch (E.type) {
 				case Birth:
 					if (E.subject.getSex() == Sim.Sex.F) {
 						double startReproTime = Sim.MIN_MATING_AGE_F + E.time + AgeModel.randomWaitingTime(RND, BIRTHRATE);
 						Event reproEvent = new Event(E.subject,Event.eventType.Reproduction,startReproTime);
-                        //System.out.println("REPRO TIME: "+(startReproTime-E.time));
                         eventQ.add(reproEvent);
 					}
 					double deathTime = ageModel.randomAge(RND) + E.time;
@@ -60,7 +54,6 @@ public class Simulate {
 					Event death = new Event(E.subject, Event.eventType.Death, deathTime);
 					eventQ.add(death);
                     population.insert(E.subject);
-                    //System.out.println("Sim "+E.subject.toString()+" is born");
                     break;
                case Reproduction:
 					Sim lastMate = E.subject.getMate();
@@ -81,16 +74,19 @@ public class Simulate {
 			}
 			else{
 				population.population.remove(E.subject); // Kills the SIM
-                    //System.out.println("Sim "+E.subject.toString()+" is dead");
 
             }
             
 		}
 		
 	}
+	/*Determines whether a female will choose a new mate or (if possible) stay with last mate
+	 * @params: subject (female in reproduction event), lastMate, time
+	 * @returns: selected mate
+	 */
 	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
 		Sim newMate;
-		if (lastMate != null && Math.random() > FIDELITY) {
+		if (lastMate != null && Math.random() > FIDELITY && lastMate.getMate() == subject) {
 			return lastMate;
 		} else {
 
@@ -100,7 +96,10 @@ public class Simulate {
 
 		return newMate;
 	}
-	
+	/* Randomly selects viable mate for a females reproduction event
+	 * @params: time
+	 * @returns: new mate
+	 */
 	public Sim chooseRandomMate(double time) {
         Sim newMate = null;
 
@@ -122,7 +121,10 @@ public class Simulate {
 
         return newMate;
     }
-	
+	/* Creates new sim for birth event, sets parents as mates
+	 * @params: Sim mother, Sim father, time
+	 * @returns: child of two sims
+	 */
 	public Sim reproduce(Sim mother, Sim father, double time) {
 		Sim.Sex sex = Math.random() < 0.5? Sim.Sex.M : Sim.Sex.F;
 		Sim child = new Sim(mother,father,time,sex);
