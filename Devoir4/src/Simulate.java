@@ -130,62 +130,65 @@ public class Simulate {
 		return child;
 	}
 	
-	   public Sim ancestryP(Sim a){
+    public Sim ancestryP(Sim a){
 
-	        while(a.getFather()!=null){
-	            a = a.getFather();
-	        }
+        while(a.getFather()!=null){
+            a = a.getFather();
+        }
 
-	        return a;
-	   }
-	   
-	   public Sim ancestryM(Sim a){
+        return a;
+    }
 
-	        while(a.getMother()!=null){
-	            a = a.getMother();
-	        }
+    public Sim ancestryM(Sim a){
 
-	        return a;
+        while(a.getMother()!=null){
+            a = a.getMother();
+        }
 
-	    }
+        return a;
 
-	    public LinkedList<Sim> coalP(Population population){
+    }
 
-	        LinkedList<Sim> result = new LinkedList<>();
+    public LinkedList<Sim> coalP(Population population){
 
-	        for(int i = population.population.size()-1; i>=0; i--){
+        LinkedList<Sim> result = new LinkedList<>();
 
-	            Sim currentA = ancestryP(population.population.get(i));
+        for(int i = population.population.size()-1; i>=0; i--){
 
-	            if(!result.contains(currentA)){
-	                result.add(currentA);
-	            }
-	        }
+            Sim currentA = ancestryP(population.population.get(i));
 
-	        System.out.println("Number of paternal lineages: "+result.size());
-	        return result;
-	    }
+            if(!result.contains(currentA)){
+                result.add(currentA);
+            }
+        }
 
-	    public LinkedList<Sim> coalM(Population population){
+        System.out.println("Number of paternal lineages: "+result.size());
+        return result;
+    }
 
-	        LinkedList<Sim> result = new LinkedList<>();
+    public LinkedList<Sim> coalM(Population population){
 
-	        for(int i = population.population.size()-1; i>=0; i--){
+        LinkedList<Sim> result = new LinkedList<>();
 
-	            Sim currentA = ancestryM(population.population.get(i));
+        for(int i = population.population.size()-1; i>=0; i--){
 
-	            if(!result.contains(currentA)){
-	                result.add(currentA);
-	            }
-	        }
+            Sim currentA = ancestryM(population.population.get(i));
+            if(!result.contains(currentA)){
+                result.add(currentA);
+            }
+        }
 
-	        System.out.println("Number of maternal lineages: "+result.size());
-	        return result;
-	    }
+        System.out.println("Number of maternal lineages: "+result.size());
 
-	    public static void main(String[] args) {
-	        Simulate test = new Simulate();
-	        test.simulate(1000,10000);
-	        System.out.println(test.BIRTHRATE);
-	    }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Simulate test = new Simulate();
+        test.simulate(1000,3000);
+        System.out.println(test.BIRTHRATE);
+        test.coalM(test.population);
+        test.coalP(test.population);
+
+    }
 }
