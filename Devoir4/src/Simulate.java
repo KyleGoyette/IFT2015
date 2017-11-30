@@ -27,12 +27,13 @@ public class Simulate {
 			Event E = new Event(founder, Event.eventType.Birth, 0.0);
 			eventQ.add(E);
 		}
-
+		
         while (!eventQ.isEmpty() && eventQ.peek().time<Tmax) {
         	Event E = eventQ.poll();
-            
-            if (E.time>Tmax) break;
+        	
 
+            if (E.time>Tmax) break;
+            
 
             if (E.time>lastReportTime+100) {
             	System.out.println("TIME: "+E.time);
@@ -53,6 +54,7 @@ public class Simulate {
 					Event death = new Event(E.subject, Event.eventType.Death, deathTime);
 					eventQ.add(death);
                     population.insert(E.subject);
+                    break;
 
                case Reproduction:
 
