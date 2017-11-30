@@ -53,10 +53,10 @@ public class Simulate {
 					Event death = new Event(E.subject, Event.eventType.Death, deathTime);
 					eventQ.add(death);
                     population.insert(E.subject);
-                    break;
+
                case Reproduction:
-					Sim lastMate = E.subject.getMate();
-					Sim mate = chooseMate(E.subject,lastMate,E.time);
+
+					Sim mate = chooseMate(E.subject,E.time);
 					Sim child = reproduce(E.subject,mate,E.time);
 					Event childBirth = new Event(child,Event.eventType.Birth,E.time);
 					eventQ.add(childBirth);
@@ -81,20 +81,18 @@ public class Simulate {
 	}
 
 	/*Determines whether a female will choose a new mate or (if possible) stay with last mate
-	 * @params: subject (female in reproduction event), lastMate, time
+	 * @params: subject (female in reproduction event), time
 	 * @returns: selected mate
 	 */
-	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
-		Sim newMate;
-		if (lastMate != null && Math.random() > FIDELITY && lastMate.getMate() == subject) {
-			return lastMate;
+	public Sim chooseMate(Sim subject, double time) {
+
+		if (subject.isInARelationship(time) && Math.random() > FIDELITY) {
+			return subject.getMate();
 		} else {
-
+			Sim newMate;
 		    newMate = chooseRandomMate(time);
-
+		    return newMate;
 		}
-
-		return newMate;
 	}
 
 	/* Randomly selects viable mate for a females reproduction event
@@ -103,8 +101,6 @@ public class Simulate {
 	 */
 	public Sim chooseRandomMate(double time) {
         Sim newMate = null;
-
-        //System.out.println(population.getSize());
 
         while (newMate == null) {
             int rdm = (int) Math.round(Math.random() * (population.getSize() - 1));
