@@ -39,7 +39,7 @@ public class Sim implements Comparable<Sim>
     public static double MAX_MATING_AGE_M = 73.0; // Charlie Chaplin
     
     /** 
-     * Ordering by death date.
+     * Ordering by birth date.
      * 
      * @param o
      * @return 
@@ -47,7 +47,7 @@ public class Sim implements Comparable<Sim>
     @Override
     public int compareTo(Sim o) 
     {
-        return Double.compare(this.birthtime,o.birthtime);
+        return Double.compare(o.birthtime,this.birthtime);
     }
     
     public enum Sex {F, M};

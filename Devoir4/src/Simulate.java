@@ -192,6 +192,6 @@ public class Simulate {
 	        Coalescence coalescence = new Coalescence(test.population);
 	        coalescence.makePA();
 	        coalescence.makeMA();
-	        //coalescence.PA.entrySet().forEach(System.out::println);
+	        coalescence.PA.entrySet().forEach(System.out::println);
 	    }
 }

@@ -26,15 +26,17 @@ public class Coalescence {
 	}
 	
 	public void makePA() {
-		Double birthtime;
 		while (!coalescenceQM.isEmpty()) {
-			Sim youngestSim = coalescenceQM.remove();
+			Sim youngestSim = coalescenceQM.poll();
+			double birthtime = youngestSim.getBirthTime();
 			//System.out.println(youngestSim.getBirthTime());
 			Sim father = youngestSim.getFather();
 			if (coalescenceQM.contains(father) || father ==null) {
 				birthtime = youngestSim.getBirthTime();
-				PA.put(birthtime, coalescenceQM.size());
 				
+				//System.out.println(birthtime.intValue());
+				PA.put(birthtime, coalescenceQM.size());
+				//System.out.println(hello);
 			} else {
 				coalescenceQM.add(father);
 			}
