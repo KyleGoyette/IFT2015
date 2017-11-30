@@ -25,7 +25,7 @@ public class Coalescence {
 	   MA = new HashMap<Double, Integer>();
 	}
 	
-	public void makePA() {
+	public HashMap<Double, Integer> makePA() {
 		while (!coalescenceQM.isEmpty()) {
 			Sim youngestSim = coalescenceQM.poll();
 			double birthtime = youngestSim.getBirthTime();
@@ -36,10 +36,10 @@ public class Coalescence {
 				coalescenceQM.add(father);
 			}
 		}
-		System.out.println(PA.size());
+		return PA;
 	}
 	 
-	public void makeMA() {
+	public HashMap<Double, Integer> makeMA() {
 		while (!coalescenceQF.isEmpty()) {
 			Sim youngestSim = coalescenceQF.remove();
 			double birthtime = youngestSim.getBirthTime();
@@ -51,6 +51,7 @@ public class Coalescence {
 				coalescenceQF.add(mother);
 			}
 		}
+		return MA;
 	}
 	
 }
