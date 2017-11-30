@@ -2,17 +2,17 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Simulate {
-	private static final double BIRTHRATE = 5;
-	private static final double FIDELITY = 0.5;
+	public double BIRTHRATE;
+	private static final double FIDELITY = 0.1;
 	private Random RND = new Random();
 	private Population population;
 	private PriorityQueue<Event> eventQ;
 	
 	public void simulate(int n, double Tmax) {
+		
 		AgeModel ageModel = new AgeModel();
 		population = new Population(n);
-		double birthrate = 5;
-
+		this.BIRTHRATE = 2.0/ageModel.expectedParenthoodSpan(Sim.MIN_MATING_AGE_F, Sim.MAX_MATING_AGE_F);
 		Sim founder;
 		this.eventQ = new PriorityQueue<Event>();
 		for (int i=0; i<n; i++) {
@@ -31,8 +31,8 @@ public class Simulate {
 			Event E = eventQ.poll();
             System.out.println("TIME: "+E.time);
             if (E.time>Tmax) break;
-
-            System.out.println(eventQ.size());
+            System.out.println("Number of events left: " + eventQ.size());
+            System.out.println("Population size: " + population.getSize());
 
 			/*remove all Sims meant to die
 			Sim deathSim = population.peakMin();
@@ -44,9 +44,9 @@ public class Simulate {
 				switch (E.type) {
 				case Birth:
 					if (E.subject.getSex() == Sim.Sex.F) {
-						double startReproTime = Sim.MIN_MATING_AGE_F + E.time;
+						double startReproTime = Sim.MIN_MATING_AGE_F + E.time + AgeModel.randomWaitingTime(RND, BIRTHRATE);
 						Event reproEvent = new Event(E.subject,Event.eventType.Reproduction,startReproTime);
-                        System.out.println("REPRO TIME: "+startReproTime);
+                        System.out.println("REPRO TIME: "+(startReproTime-E.time));
                         eventQ.add(reproEvent);
 					}
 					double deathTime = ageModel.randomAge(RND) + E.time;
@@ -56,7 +56,7 @@ public class Simulate {
                     population.insert(E.subject);
                     System.out.println("Sim "+E.subject.toString()+" is born");
                     break;
-                    case Reproduction:
+               case Reproduction:
 					Sim lastMate = E.subject.getMate();
 					Sim mate = chooseMate(E.subject,lastMate,E.time);
 					Sim child = reproduce(E.subject,mate,E.time);
@@ -69,7 +69,8 @@ public class Simulate {
 						eventQ.add(reproEvent);
 					}
 
-
+               case Death:
+            	   population.population.remove(E.subject);
                 }
 			} else{
 			    if(E.type == Event.eventType.Death){
@@ -83,7 +84,7 @@ public class Simulate {
 	}
 	public Sim chooseMate(Sim subject, Sim lastMate, double time) {
 		Sim newMate;
-		if (lastMate != null && Math.random() > 0.1) {
+		if (lastMate != null && Math.random() > FIDELITY) {
 			return lastMate;
 		} else {
 
@@ -97,7 +98,7 @@ public class Simulate {
 	public Sim chooseRandomMate(double time) {
         Sim newMate = null;
 
-        System.out.println(population.getSize());
+        //System.out.println(population.getSize());
 
         while (newMate == null) {
             int rdm = (int) Math.round(Math.random() * (population.getSize() - 1));
@@ -124,7 +125,8 @@ public class Simulate {
 
     public static void main(String[] args) {
         Simulate test = new Simulate();
-        test.simulate(3,65);
+        test.simulate(1000,10000);
+        System.out.println(test.BIRTHRATE);
     }
 
 }
