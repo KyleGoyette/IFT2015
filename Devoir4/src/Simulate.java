@@ -6,6 +6,7 @@ public class Simulate {
 	private Random RND = new Random();
 	private Population population;
 	private PriorityQueue<Event> eventQ;
+	private Coalescence coalescence;
 	
 	public void simulate(int n, double Tmax) {
 		double lastReportTime = 0;
@@ -33,7 +34,7 @@ public class Simulate {
 
             if (E.time>lastReportTime+100) {
             	System.out.println("TIME: "+E.time);
-                System.out.println("Number of events left: " + eventQ.size());
+                //System.out.println("Number of events left: " + eventQ.size());
                 System.out.println("Population size: " + population.getSize());
                 lastReportTime = E.time;
             }
@@ -182,10 +183,15 @@ public class Simulate {
 	        System.out.println("Number of maternal lineages: "+result.size());
 	        return result;
 	    }
+	    
 
 	    public static void main(String[] args) {
 	        Simulate test = new Simulate();
-	        test.simulate(1000,10000);
+	        test.simulate(1000,1000);
 	        System.out.println(test.BIRTHRATE);
+	        Coalescence coalescence = new Coalescence(test.population);
+	        coalescence.makePA();
+	        coalescence.makeMA();
+	        //coalescence.PA.entrySet().forEach(System.out::println);
 	    }
 }
