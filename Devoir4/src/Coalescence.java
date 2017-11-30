@@ -60,7 +60,6 @@ public class Coalescence {
 				
 				MA.put(birthtime, coalescenceQF.size());
 				if (mother == null) {
-					System.out.println("HELLO");
 					break;
 				}
 			} else {
